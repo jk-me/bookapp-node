@@ -1,5 +1,6 @@
 const express = require("express")
 const graphqlHTTP = require("express-graphql")
+const schema = require("./schema/schema")
 
 const app = express()
 
@@ -8,7 +9,7 @@ app.get('/', function (req, res) {
 });
 
 app.use('/graphql', graphqlHTTP({
-  
+  schema
 }))
 
 app.listen(3000, function () {
