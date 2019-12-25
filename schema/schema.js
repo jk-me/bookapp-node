@@ -19,6 +19,14 @@ const BookType = new GraphQLObjectType({    //define new object type
   })
 })
 
+const AuthorType = new GraphQLObjectType({    //define new object type
+  name: 'Author',
+  fields: () => ({   //wrap in fn so objects can interact/reference each other better
+    id: { type: GraphQLString },    //must use GraphQLString, not string
+    name: { type: GraphQLString },
+  })
+})
+
 const RootQuery = new GraphQLObjectType({   //used to jump into graph to query
   name: "RootQueryType",
   fields:{
