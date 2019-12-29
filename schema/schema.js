@@ -1,6 +1,12 @@
 const graphql = require('graphql');
 
-const {GraphQLObjectType, GraphQLString, GraphQLSchema} = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLString,
+  GraphQLID,       //allows querying with integer, even if id is a string like in dummy data below. typeof this is actually a js str
+  GraphQLInt
+} = graphql;
 //destructuring, grabs GraphQLString... from graphql package. must be these var names.
 
 //dummy data
@@ -13,16 +19,16 @@ const books = [
 const BookType = new GraphQLObjectType({    //define new object type
   name: 'Book',
   fields: () => ({   //wrap in fn so objects can interact/reference each other better
-    id: { type: GraphQLString },    //must use GraphQLString, not string
-    name: { type: GraphQLString },
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },    //must use GraphQLString, not string
     genre: { type: GraphQLString }
   })
 })
 
-const AuthorType = new GraphQLObjectType({    //define new object type
+const AuthorType = new GraphQLObjectType({
   name: 'Author',
-  fields: () => ({   //wrap in fn so objects can interact/reference each other better
-    id: { type: GraphQLString },    //must use GraphQLString, not string
+  fields: () => ({
+    id: { type: GraphQLID },
     name: { type: GraphQLString },
   })
 })
@@ -32,7 +38,7 @@ const RootQuery = new GraphQLObjectType({   //used to jump into graph to query
   fields:{
     book:{
       type: BookType,
-      args:{ id:{ type: GraphQLString }},  //expected arg when querying, ex query: book(id:"123"){name} ->retrieve name of book 123
+      args:{ id:{ type: GraphQLID }},  //expected arg when querying, ex query: book(id:"123"){name} ->retrieve name of book 123
       resolve(parent, args){ //parent refers to a relationship, args refers to prev line
         //fires when queried, will have access to args.id in this case
         //code to get data from db/other source
