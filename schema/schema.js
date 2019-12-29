@@ -16,6 +16,12 @@ const books = [
   {name: 'GDC', genre: 'Xianxia', id: '3'}
 ]
 
+const authors =  [
+  {name: 'George RR Martin', age: 71, id:"1"},
+  {name: 'Alan Moore', age: 66, id:"2"},
+  {name: 'MXTX', age: 28, id:"3"},
+]
+
 const BookType = new GraphQLObjectType({    //define new object type
   name: 'Book',
   fields: () => ({   //wrap in fn so objects can interact/reference each other better
@@ -30,6 +36,7 @@ const AuthorType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
+    age: {type: GraphQLInt}
   })
 })
 
@@ -43,6 +50,13 @@ const RootQuery = new GraphQLObjectType({   //used to jump into graph to query
         //fires when queried, will have access to args.id in this case
         //code to get data from db/other source
         return books.find( book => book.id === args.id )
+      }
+    },
+    author:{
+      type: AuthorType,
+      args: {id: {type: GraphQLID}},
+      resolve(parent, args){
+        return authors.find( author => author.id === args.id )
       }
     }
   }
