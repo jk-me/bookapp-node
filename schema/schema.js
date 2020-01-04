@@ -6,14 +6,13 @@ const {
   GraphQLString,
   GraphQLID,       //allows querying with integer, even if id is a string like in dummy data below. typeof this is actually a js str
   GraphQLInt
-} = graphql;
-//destructuring, grabs GraphQLString... from graphql package. must be these var names.
+} = graphql;      //destructuring, grabs GraphQLString... from graphql package. must be these var names.
 
 //dummy data
 const books = [
-  {name: 'A Dance With Dragons', genre: 'Fantasy', id: '1'},
-  {name: 'Watchmen', genre: 'Fantasy', id: '2'},
-  {name: 'GDC', genre: 'Xianxia', id: '3'}
+  {name: 'A Dance With Dragons', genre: 'Fantasy', id: '1', authorId: '1'},
+  {name: 'Watchmen', genre: 'Fantasy', id: '2' , authorId: '2'},
+  {name: 'GDC', genre: 'Xianxia', id: '3' , authorId: '3'}
 ]
 
 const authors =  [
@@ -27,7 +26,14 @@ const BookType = new GraphQLObjectType({    //define new object type
   fields: () => ({   //wrap in fn so objects can interact/reference each other better
     id: { type: GraphQLID },
     name: { type: GraphQLString },    //must use GraphQLString, not string
-    genre: { type: GraphQLString }
+    genre: { type: GraphQLString },
+    author: {                   //finding associated author
+      type: AuthorType,
+      resolve(parent, args){
+        // console.log(parent, args)
+        return authors.find( author => author.id === parent.authorId)     //use parent to refer to Book queried to find authorId
+      }
+    }
   })
 })
 
