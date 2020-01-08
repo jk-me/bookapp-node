@@ -5,12 +5,14 @@ const {
   GraphQLSchema,
   GraphQLString,
   GraphQLID,       //allows querying with integer, even if id is a string like in dummy data below. typeof this is actually a js str
-  GraphQLInt
+  GraphQLInt,
+  GraphQLList
 } = graphql;      //destructuring, grabs GraphQLString... from graphql package. must be these var names.
 
 //dummy data
 const books = [
   {name: 'A Dance With Dragons', genre: 'Fantasy', id: '1', authorId: '1'},
+  {name: 'A Game of Thrones', genre: 'Fantasy', id: '4', authorId: '1'},
   {name: 'Watchmen', genre: 'Fantasy', id: '2' , authorId: '2'},
   {name: 'GDC', genre: 'Xianxia', id: '3' , authorId: '3'}
 ]
@@ -29,9 +31,9 @@ const BookType = new GraphQLObjectType({    //define new object type
     genre: { type: GraphQLString },
     author: {                   //finding associated author
       type: AuthorType,
-      resolve(parent, args){
-        // console.log(parent, args)
-        return authors.find( author => author.id === parent.authorId)     //use parent to refer to Book queried to find authorId
+      resolve(parent, args){    //used to query some data object, used in rootquery and for assc objs
+        // console.log(parent, args)       //appears in terminal, not browser
+        return authors.find( author => author.id === parent.authorId)     //parent is Book queried, use to find authorId
       }
     }
   })
@@ -42,7 +44,13 @@ const AuthorType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
-    age: {type: GraphQLInt}
+    age: {type: GraphQLInt},
+    books: {
+      type: new GraphQLList(BookType),    //return a list of objects (author has many books)
+      resolve(parent, args){
+        return books.filter( book => book.authorId === parent.id)
+      }
+    }
   })
 })
 
