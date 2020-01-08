@@ -25,15 +25,15 @@ const authors =  [
 
 const BookType = new GraphQLObjectType({    //define new object type
   name: 'Book',
-  fields: () => ({   //wrap in fn so objects can interact/reference each other better
+  fields: () => ({   //wrap in fn, otherwise app will crash trying to reference AuthorType that is not defined yet
     id: { type: GraphQLID },
-    name: { type: GraphQLString },    //must use GraphQLString, not string
+    name: { type: GraphQLString },    //must use GraphQL types
     genre: { type: GraphQLString },
     author: {                   //finding associated author
       type: AuthorType,
       resolve(parent, args){    //used to query some data object, used in rootquery and for assc objs
         // console.log(parent, args)       //appears in terminal, not browser
-        return authors.find( author => author.id === parent.authorId)     //parent is Book queried, use to find authorId
+        return authors.find( author => author.id === parent.authorId)     //parent is Book originally queried
       }
     }
   })
