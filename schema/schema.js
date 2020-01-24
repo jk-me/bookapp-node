@@ -102,6 +102,9 @@ const Mutation = new GraphQLObjectType({
           name: args.name,
           age: args.age
         })
+        // author.save((err) => { if (err) return handleError(err) })
+        //error handling?
+})
         return author.save()
       }
     },
