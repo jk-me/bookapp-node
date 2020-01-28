@@ -104,7 +104,6 @@ const Mutation = new GraphQLObjectType({
         })
         // author.save((err) => { if (err) return handleError(err) })
         //error handling?
-})
         return author.save()
       }
     },
@@ -121,6 +120,16 @@ const Mutation = new GraphQLObjectType({
           //author = Author.find_or_create_by(args.authorId)
         })
         return book.save()
+      }
+    },
+    editAuthor:{
+      type: AuthorType,
+      args:{
+        name: {type: GraphQLString},
+        age: {type: GraphQLInt}
+      },
+      resolve(parent, args){
+        //resolve
       }
     }
   }
