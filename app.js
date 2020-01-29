@@ -5,7 +5,8 @@ const mongoose = require ("mongoose")
 
 const app = express()
 
-//connect to mongodb database: mongo-jk,ukghJCiUymue01e1
+//copy connect str from mongodb proj site, subst name and pw mongo-jk,ukghJCiUymue01e1
+//add options object for deprecated services
 mongoose.connect('mongodb+srv://mongo-jk:ukghJCiUymue01e1@node-gql-pract-vdd94.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true , useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch(err => console.log("Error: ", err.message));

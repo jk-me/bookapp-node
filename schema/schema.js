@@ -10,18 +10,18 @@ const {
 } = graphql;      //destructuring, grabs GraphQLString... from graphql package. must be these var names.
 
 //dummy data
-const books = [
-  {name: 'A Dance With Dragons', genre: 'Fantasy', id: '1', authorId: '1'},
-  {name: 'A Game of Thrones', genre: 'Fantasy', id: '4', authorId: '1'},
-  {name: 'Watchmen', genre: 'Fantasy', id: '2' , authorId: '2'},
-  {name: 'GDC', genre: 'Xianxia', id: '3' , authorId: '3'}
-]
-
-const authors =  [
-  {name: 'George RR Martin', age: 71, id:"1"},
-  {name: 'Alan Moore', age: 66, id:"2"},
-  {name: 'MXTX', age: 28, id:"3"},
-]
+// const books = [
+//   {name: 'A Dance With Dragons', genre: 'Fantasy', id: '1', authorId: '1'},
+//   {name: 'A Game of Thrones', genre: 'Fantasy', id: '4', authorId: '1'},
+//   {name: 'Watchmen', genre: 'Fantasy', id: '2' , authorId: '2'},
+//   {name: 'GDC', genre: 'Xianxia', id: '3' , authorId: '3'}
+// ]
+//
+// const authors =  [
+//   {name: 'George RR Martin', age: 71, id:"1"},
+//   {name: 'Alan Moore', age: 66, id:"2"},
+//   {name: 'MXTX', age: 28, id:"3"},
+// ]
 
 const BookType = new GraphQLObjectType({    //define new object type
   name: 'Book',
