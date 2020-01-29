@@ -1,4 +1,6 @@
 const graphql = require('graphql');
+const Author = require('../models/author.js')
+const Book = require('../models/book.js')
 
 const {
   GraphQLObjectType,
@@ -8,6 +10,8 @@ const {
   GraphQLInt,
   GraphQLList
 } = graphql;      //destructuring, grabs GraphQLString... from graphql package. must be these var names.
+
+
 
 //dummy data
 // const books = [
@@ -88,7 +92,7 @@ const RootQuery = new GraphQLObjectType({   //used to jump into graph to query
   }
 })
 
-const Mutation = new GraphQLObjectType({
+const Mutation = new GraphQLObjectType({  //remember to require model files at top and add mutation to exports at btm
   name: "Mutation",
   fields:{
     addAuthor:{
@@ -98,7 +102,7 @@ const Mutation = new GraphQLObjectType({
         age: {type: GraphQLInt}
       },
       resolve(parent, args){
-        let author = new Author({
+        let author = new Author({   //use required db model
           name: args.name,
           age: args.age
         })
@@ -111,13 +115,14 @@ const Mutation = new GraphQLObjectType({
       type: BookType,
       args:{
         name: {type: GraphQLString},
-        genre: {type: GraphQLString}
+        genre: {type: GraphQLString},
+        authorId: {type: GraphQLID}
       },
       resolve(parent, args){
         let book = new Book({
           name: args.name,
-          age: args.age
-          //author = Author.find_or_create_by(args.authorId)
+          genre: args.genre,
+          author: args.authorId
         })
         return book.save()
       }
@@ -136,5 +141,6 @@ const Mutation = new GraphQLObjectType({
 })
 
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation: Mutation
 })
