@@ -33,11 +33,14 @@ const BookType = new GraphQLObjectType({    //define new object type
     id: { type: GraphQLID },
     name: { type: GraphQLString },    //must use GraphQL types
     genre: { type: GraphQLString },
-    author: {                   //finding associated author
+    author: {
       type: AuthorType,
-      resolve(parent, args){    //used to query some data object, used in rootquery and for assc objs
+      resolve(parent, args){    //used to query some data object(s), here parent is Book originally queried
+
         // console.log(parent, args)       //appears in terminal, not browser
-        return authors.find( author => author.id === parent.authorId)     //parent is Book originally queried
+        // return authors.find( author => author.id === parent.authorId)  //dummy data example
+
+        return Author.findById(parent.authorId)     //Author model required at top, used to interact w mongodb
       }
     }
   })
@@ -50,9 +53,10 @@ const AuthorType = new GraphQLObjectType({
     name: { type: GraphQLString },
     age: {type: GraphQLInt},
     books: {
-      type: new GraphQLList(BookType),    //return a list of objects (author has many books)
+      type: new GraphQLList(BookType),    //author has many books, so need to return a list of objects
       resolve(parent, args){
-        return books.filter( book => book.authorId === parent.id)
+        // return books.filter( book => book.authorId === parent.id)   //dummy data example w filter
+        return Book.find({authorId: parent.id})   //pass an object, find method returns those that match property
       }
     }
   })
@@ -64,29 +68,29 @@ const RootQuery = new GraphQLObjectType({   //used to jump into graph to query
     book:{
       type: BookType,
       args:{ id:{ type: GraphQLID }},  //expected arg when querying, ex query: book(id:"123"){name} ->retrieve name of book 123
-      resolve(parent, args){ //parent refers to a relationship, args refers to prev line
-        //fires when queried, will have access to args.id in this case
+      resolve(parent, args){ //args from prev line
         //code to get data from db/other source
-        return books.find( book => book.id === args.id )
+        return Book.findById(args.id)
       }
     },
     author:{
       type: AuthorType,
       args: {id: {type: GraphQLID}},
       resolve(parent, args){
-        return authors.find( author => author.id === args.id )
+        // return authors.find( author => author.id === args.id )
+        return Author.findById(args.id)
       }
     },
     books:{
       type: new GraphQLList(BookType),
       resolve(parent, args){
-        return books
+        return Book.find({})  //when passing an empty obj, find method returns all objects
       }
     },
     authors:{
       type: new GraphQLList(AuthorType),
       resolve(parent, args){
-        return authors
+        return Author.find({})
       }
     }
   }
