@@ -8,7 +8,8 @@ const {
   GraphQLString,
   GraphQLID,       //allows querying with integer, even if id is a string like in dummy data below. typeof this is actually a js str
   GraphQLInt,
-  GraphQLList
+  GraphQLList,
+  GraphQLNonNull    //requires input in mutation/query
 } = graphql;      //destructuring, grabs GraphQLString... from graphql package. must be these var names.
 
 
@@ -102,8 +103,8 @@ const Mutation = new GraphQLObjectType({  //remember to require model files at t
     addAuthor:{
       type: AuthorType,
       args:{
-        name: {type: GraphQLString},
-        age: {type: GraphQLInt}
+        name: {type: new GraphQLNonNull(GraphQLString)},
+        age: {type: new GraphQLNonNull(GraphQLInt)}
       },
       resolve(parent, args){
         let author = new Author({   //use required db model
@@ -118,9 +119,9 @@ const Mutation = new GraphQLObjectType({  //remember to require model files at t
     addBook:{
       type: BookType,
       args:{
-        name: {type: GraphQLString},
-        genre: {type: GraphQLString},
-        authorId: {type: GraphQLID}
+        name: {type: new GraphQLNonNull(GraphQLString)},
+        genre: {type: new GraphQLNonNull(GraphQLString)},
+        authorId: {type: new GraphQLNonNull(GraphQLID)}
       },
       resolve(parent, args){
         let book = new Book({
