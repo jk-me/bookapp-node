@@ -132,14 +132,18 @@ const Mutation = new GraphQLObjectType({  //remember to require model files at t
         return book.save()
       }
     },
-    editAuthor:{
-      type: AuthorType,
+    updateBook:{
+      type: BookType,
       args:{
+        id: {type: GraphQLID},
         name: {type: GraphQLString},
-        age: {type: GraphQLInt}
+        genre: {type: GraphQLString},
+        authorId: {type: GraphQLID}
       },
       resolve(parent, args){
-        //resolve
+        let book = Book.findById(args.id)
+        book.update({name: args.name, genre: args.genre, authorId: args.authorId})  //need all args, or empty ones become null
+        return book   //must return this to update? but does not show updated object values
       }
     }
   }
