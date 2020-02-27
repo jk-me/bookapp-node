@@ -1,13 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import ApolloClient from 'apollo-boost'
+import ApolloProvider from '@apollo/react-hooks'
+
 import BookList from './BookList.js'
+
+const client = new ApolloClient({
+  uri: "http://localhost:4000/graphql"
+})
 
 function App() {
   return (
-    <div className="App">
-      <BookList />
-    </div>
+    <ApolloProvider client={client}>
+      <div className="App">
+        <BookList />
+      </div>
+    </ApolloProvider>
   );
 }
 
