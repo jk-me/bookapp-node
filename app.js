@@ -5,7 +5,7 @@ const mongoose = require ("mongoose")
 const cors = require("cors")
 
 const app = express();
-
+const port = 4000
 //allow cors
 app.use(cors())
 
@@ -29,6 +29,6 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true
 }))
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+app.listen(port, function () {
+  console.log(`Example app listening on port ${port}!`);
 });
