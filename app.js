@@ -2,8 +2,12 @@ const express = require("express")
 const graphqlHTTP = require("express-graphql")
 const schema = require("./schema/schema")
 const mongoose = require ("mongoose")
+const cors = require("cors")
 
-const app = express()
+const app = express();
+
+//allow cors
+app.use(cors())
 
 //copy connect str from mongodb proj site, subst name and pw mongo-jk,ukghJCiUymue01e1
 //add options object for deprecated services
@@ -17,7 +21,7 @@ mongoose.connect('mongodb+srv://mongo-jk:ukghJCiUymue01e1@node-gql-pract-vdd94.m
 // })
 
 app.get('/', function (req, res) {
-  res.send('Hello Worrrrld!!!!!!!!!!');
+  res.send('Hello backend');
 });
 
 app.use('/graphql', graphqlHTTP({

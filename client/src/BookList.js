@@ -13,8 +13,8 @@ const getBooksQuery = gql`
 
 const BookList = () =>{
 
-  const {books} = useQuery(getBooksQuery)
-  console.log(books)
+  const {data} = useQuery(getBooksQuery)
+  const books = data ? console.log(data.books) : null
   return(
     <div>
       <ul id="book-list">
