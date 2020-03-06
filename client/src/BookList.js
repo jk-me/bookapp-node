@@ -23,14 +23,16 @@ const BookList = () =>{
     )
   }
   else{
-    return data.books.map( book => <li>{book.name}</li>)
+    return (
+      <div>
+        <ul id="book-list">
+          {data.books.map( book => <li key={book.id}>{book.name}</li>)}
+        </ul>
+      </div>
+    )
   }
   // return(
-  //   <div>
-  //     <ul id="book-list">
-  //       <li>Book Name</li>
-  //     </ul>
-  //   </div>
+  //
   // )
 }
 
