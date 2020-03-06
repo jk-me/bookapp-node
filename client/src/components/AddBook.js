@@ -2,38 +2,48 @@ import React from 'react'
 import {gql} from 'apollo-boost'
 import {useQuery} from '@apollo/react-hooks'
 
-const getBooksQuery = gql`
-  {
-    books{
+const getAuthorsQuery = gql`{
+    authors{
       name
       id
     }
-  }
-`
+  }`
 
 const AddBook = () =>{
 
-  const {data, loading} = useQuery(getBooksQuery)
+  const {data, loading} = useQuery(getAuthorsQuery)
   console.log(data)
-  const books = data ? console.log(data.books) : null
+  const authors = data ? console.log(data.authors) : null
 
-  if (loading){
-    return(
-      <h1>Loading</h1>
-    )
-  }
-  else{
-    return (
-      <div>
-        <ul id="book-list">
-          {data.books.map( book => <li key={book.id}>{book.name}</li>)}
-        </ul>
+  const displayAuthors = () => {
+         return loading ? <option disabled>Loading..</option> :
+         data.authors.map(author => <option key={author.id} value={author.id}>{author.name}</option>)
+     }
+
+  return (
+    <form id="add-book">
+      <div className="field">
+        <label>Book Name: </label>
+        <input type="text" />
       </div>
-    )
-  }
-  // return(
-  //
-  // )
+
+      <div>
+        <label>Genre: </label>
+        <input type="text" />
+      </div>
+
+      <div>
+        <label>Author: </label>
+        <select>
+          <option>Select Author:</option>
+          {displayAuthors()}
+        </select>
+      </div>
+
+      <button>+</button>
+    </form>
+  )
+
 }
 
 export default AddBook
