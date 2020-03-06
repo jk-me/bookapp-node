@@ -3,7 +3,7 @@ import './App.css';
 import ApolloClient from 'apollo-boost'
 import {ApolloProvider} from '@apollo/react-hooks'
 
-import BookList from './BookList.js'
+import BookList from './components/BookList.js'
 
 //apollo client setup
 const client = new ApolloClient({
