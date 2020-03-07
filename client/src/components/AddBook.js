@@ -15,16 +15,16 @@ const AddBook = () =>{
   console.log(data)
   // const authors = data ? console.log(data.authors) : null
 
-  const displayAuthors = () => {
-         if (loading){
-           return <option disabled>Loading..</option>
-         }
-         else{
-           return data.authors.map(author => <option key={author.id} value={author.id}>{author.name}</option>)
-         }
+  const displayAuthors = () =>{
+     if (loading){
+       return <option disabled>Loading..</option>
      }
+     else{
+       return data.authors.map(author => <option key={author.id} value={author.id}>{author.name}</option>)
+     }
+  }
 
-  return (
+  return(
     <form id="add-book">
       <div className="field">
         <label>Book Name: </label>

@@ -17,23 +17,18 @@ const BookList = () =>{
   console.log(data)
   // const books = data ? console.log(data.books) : null
 
-  if (loading){
-    return(
-      <h1>Loading</h1>
-    )
+  const displayBooks = () =>{
+    return loading ? <li>Loading</li> : data.books.map( book => <li key={book.id}>{book.name}</li>)
   }
-  else{
-    return (
-      <div>
-        <ul id="book-list">
-          {data.books.map( book => <li key={book.id}>{book.name}</li>)}
-        </ul>
-      </div>
-    )
-  }
-  // return(
-  //
-  // )
+
+  return(
+    <div>
+      <ul id="book-list">
+        {displayBooks()}
+      </ul>
+    </div>
+  )
+
 }
 
 export default BookList
