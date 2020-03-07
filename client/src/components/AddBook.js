@@ -13,11 +13,15 @@ const AddBook = () =>{
 
   const {data, loading} = useQuery(getAuthorsQuery)
   console.log(data)
-  const authors = data ? console.log(data.authors) : null
+  // const authors = data ? console.log(data.authors) : null
 
   const displayAuthors = () => {
-         return loading ? <option disabled>Loading..</option> :
-         data.authors.map(author => <option key={author.id} value={author.id}>{author.name}</option>)
+         if (loading){
+           return <option disabled>Loading..</option>
+         }
+         else{
+           return data.authors.map(author => <option key={author.id} value={author.id}>{author.name}</option>)
+         }
      }
 
   return (

@@ -15,7 +15,7 @@ const BookList = () =>{
 
   const {data, loading} = useQuery(getBooksQuery)
   console.log(data)
-  const books = data ? console.log(data.books) : null
+  // const books = data ? console.log(data.books) : null
 
   if (loading){
     return(
